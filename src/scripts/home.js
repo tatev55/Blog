@@ -10,7 +10,7 @@ function createBloggerCard(blogger) {
 }
 
 function createPostCard(post) {
-    const postCard =  UI.createElement('div', { class: 'post__card w-100 ' }, [
+    const postCard =  UI.createElement('div', { class: 'post__card w-100 ', id: `post-${post.id}` }, [
                         UI.createElement('div', { class: 'post__card__boxPostTitle display-flex jc-space-between ai-center' }, [
                             UI.createElement('p', { class: 'post__card__author' }, `By: ${post.authorName}`),
                             UI.createElement('h4', { class: 'post__card__title' }, post.title),
