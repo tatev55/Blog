@@ -1,3 +1,7 @@
+import UI from "./utils/utils.js";
+import{Storage} from "./utils/Storage.js";
+
+
 function createBloggerCard(blogger) {
     return UI.createElement('div', { class: 'blogger w-90 h-150px display-flex jc-space-between ai-center' }, [
         UI.createElement('img', { src: blogger.avatar, alt: `${blogger.firstName} ${blogger.lastName}`, class: 'blogger_avatar w-100px h-100px transition-5' }),
@@ -6,19 +10,23 @@ function createBloggerCard(blogger) {
 }
 
 function createPostCard(post) {
-    return UI.createElement('div', { class: 'post__card w-100 ' }, [
-                UI.createElement('div', { class: 'post__card__boxPostTitle display-flex jc-space-between ai-center' }, [
-                    UI.createElement('p', { class: 'post__card__author' }, `By: ${post.authorName}`),
-                    UI.createElement('h4', { class: 'post__card__title' }, post.title),
-                ]),
-                UI.createElement('div', { class: 'post__card__description display-flex jc-space-between ai-center ta-center' }, [
-                    UI.createElement('img', { src: post.img, alt: post.title, class: 'post__image w-300px h-200px transition-5' }),
-                    UI.createElement('div', { class: 'box__post_story w-400px' }, [
-                        UI.createElement('p', { class: 'post_story' }, post.story)
-                    ])
-                ]),
-                UI.createElement('button', {class: 'delete-post-btn w-100px h-30px'}, 'Delete') 
-            ]);
+    const postCard =  UI.createElement('div', { class: 'post__card w-100 ', id: `post-${post.id}` }, [
+                        UI.createElement('div', { class: 'post__card__boxPostTitle display-flex jc-space-between ai-center' }, [
+                            UI.createElement('p', { class: 'post__card__author' }, `By: ${post.authorName}`),
+                            UI.createElement('h4', { class: 'post__card__title' }, post.title),
+                        ]),
+                        UI.createElement('div', { class: 'post__card__description display-flex jc-space-between ai-center ta-center' }, [
+                        UI.createElement('img', { src: post.img, alt: post.title, class: 'post__image w-300px h-200px transition-5' }),
+                        UI.createElement('div', { class: 'box__post_story w-400px' }, [
+                            UI.createElement('p', { class: 'post_story' }, post.story)
+                        ])
+                    ]),
+                UI.createElement('button', {class: 'delete-post-btn w-100px h-30px', id: `delete-post-btn-${post.id}`}, 'Delete') 
+    ]);
+    const deleteButton = postCard.querySelector(`#delete-post-btn-${post.id}`);
+    deleteButton.addEventListener('click', () => deletePost(post.id));
+
+    return postCard;
 }
 
 function createContainer() {
@@ -67,8 +75,20 @@ function createContainer() {
 
 const staticPosts = posts; 
 function loadPosts() {
-    const dynamicPosts = JSON.parse(localStorage.getItem('posts')) || [];  
+    const dynamicPosts =Storage.getItem('posts') || []; 
     return [...staticPosts, ...dynamicPosts];  
+}
+
+function deletePost(postId){
+    const postBox = document.getElementById(`post-${postId}`);
+
+    if(postBox){
+        postBox.remove() ;
+    }
+
+    const posts = Storage.getItem('posts') || [];
+    const updatedPosts = posts.filter(post => post.id !== postId);
+    Storage.setItem('posts', updatedPosts);
 }
 
 createContainer();

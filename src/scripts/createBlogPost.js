@@ -1,3 +1,6 @@
+import UI from "./utils/utils.js";
+import { Storage } from './utils/Storage.js';
+
 function createBlogPostContainer() {
     const blogPostContainer = UI.createElement('div', {class: 'container__newBlogPost h-600px display-flex jc-space-between fd-column ai-center'},[
         UI.createElement('header', {class: 'header w-90 h-100px display-flex ai-center js-flex-end' },[
@@ -5,9 +8,9 @@ function createBlogPostContainer() {
         ]),
         UI.createElement('form', {class: 'form__box w-400px h-500px display-flex fd-column jc-space-between ai-center', id: 'createPostForm'},[ 
             UI.createElement('h2', {class: 'title__newBlogPost'}, 'New Blog Post'),
-            UI.createElement('input', {class: 'input__title__newBlogPost w-150px h-40px', placeholder: 'Title', type: 'text' }),
+            UI.createElement('input', {class: 'input__title__newBlogPost w-200px h-40px', placeholder: 'Title', type: 'text' }),
             UI.createElement('textarea', {class: 'textarea__newBlogPost w-200px h-200px ta-center', placeholder: 'Post Story'}),
-            UI.createElement('input', {type: 'url',  placeholder:"https://wellsvillesun.com/wp-content/uploads/2024/01/pride-and-prejudice-book-summary.jpg.webp" , class: 'input-url'}),
+            UI.createElement('input', {type: 'url',  placeholder:"https://wellsvillesun.com/wp-content/uploads/2024/01/pride-and-prejudice-book-summary.jpg.webp" , class: 'input-url w-200px'}),
             UI.createElement('input', {class: 'input input-authorName', placeholder: 'Author Name'}),
             UI.createElement('button', {type: 'submit', class: 'submit-btn submit-createNewPost w-100px h-30px' },'Create Blog')
         ])
@@ -35,7 +38,7 @@ function createNewPost(event) {
         return;
     }
 
-    let posts = JSON.parse(localStorage.getItem('posts')) || [];
+    let post = Storage.getItem('posts') || [];
 
     const newPost = {
         id: posts.length+ 1,
@@ -45,10 +48,10 @@ function createNewPost(event) {
         img: postImage
     };
 
-    posts.push(newPost);
+    post.push(newPost);
 
     
-    localStorage.setItem('posts', JSON.stringify(posts));
+    Storage.setItem('posts', JSON.stringify(post));
     window.location.href = 'home.html'; 
 }
 

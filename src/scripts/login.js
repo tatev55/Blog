@@ -1,4 +1,4 @@
-
+import UI from "./utils/utils.js";
 
 function createContainer(){
     const container = UI.createElement('div', {class : 'container w-100 display-flex jc-space-between fd-column ai-center'}, [

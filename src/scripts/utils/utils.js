@@ -1,4 +1,4 @@
-window.UI = {
+const UI = {
     createElement: function (element, attributes = {}, children = []) {
         if (!element) {
             console.error('No element type provided.');
@@ -39,3 +39,5 @@ window.UI = {
         }
     }
 };
+
+export default UI;
